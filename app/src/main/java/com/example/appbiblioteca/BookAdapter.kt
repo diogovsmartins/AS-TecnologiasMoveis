@@ -17,9 +17,9 @@ class BookAdapter (private val books: List<Book>):
         val v= LayoutInflater.from(parent.context).inflate(R.layout.livro,parent,false)
         val vh = VH(v)
         vh.itemView.setOnClickListener{
-            val livro= books[vh.adapterPosition]
+            val book = books[vh.adapterPosition]
             val intent = Intent(parent.context, ListBooks::class.java)
-            intent.putExtra("livro", livro)
+            intent.putExtra("livro", book)
             parent.context.startActivity(intent)
         }
         return vh
@@ -31,15 +31,15 @@ class BookAdapter (private val books: List<Book>):
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         Log.v("LOG", "ViewHolder")
-        val livro = books[position]
-        val isBookRead=livro.lido.compareTo(1)==0
+        val book = books[position]
+        val isBookRead = book.isRead.compareTo(1) == 0
 
-        holder.txtLivroTitulo.text=livro.titulo
-        holder.txtLivroTipo.text=livro.tipo
-        holder.txtLivroAutor.text=livro.autor
-        holder.txtLivroNumeroPaginas.text=livro.numeroDePaginas.toString()
-        holder.txtLivroUltimaPagina.text=livro.ultimaPaginaLida.toString()
-        holder.txtLivroLido.text=isBookRead.toString()
+        holder.txtLivroTitulo.text = book.tittle
+        holder.txtLivroTipo.text = book.type
+        holder.txtLivroAutor.text = book.author
+        holder.txtLivroNumeroPaginas.text = book.numberOfPages.toString()
+        holder.txtLivroUltimaPagina.text = book.lastPageRead.toString()
+        holder.txtLivroLido.text = isBookRead.toString()
 
     }
 

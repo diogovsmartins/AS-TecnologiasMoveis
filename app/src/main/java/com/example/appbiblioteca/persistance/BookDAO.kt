@@ -10,20 +10,18 @@ import com.example.appbiblioteca.database.DbHelper
 import com.example.appbiblioteca.domain.Book
 
 class BookDAO(context: Context) {
-    var banco = DbHelper(context)
+    var db = DbHelper(context)
 
     fun insert(book: Book): String {
-        val db = banco.writableDatabase
+        val db = db.writableDatabase
         val contentValues = ContentValues()
-        // val sql= "Insert into table...."
-        // db.execSQL(sql)
-        contentValues.put(DbConstants.LIVRO_TITULO, book.titulo)
-        contentValues.put(DbConstants.LIVRO_TIPO, book.tipo)
-        contentValues.put(DbConstants.LIVRO_AUTOR, book.autor)
-        contentValues.put(DbConstants.LIVRO_N_PAGINAS, book.numeroDePaginas)
-        contentValues.put(DbConstants.ULTIMA_PAGINA_LIDA, book.ultimaPaginaLida)
-        contentValues.put(DbConstants.LIVRO_LIDO, book.lido)
-        var resp_id = db.insert(DbConstants.TABLE_LIVROS, null, contentValues)
+        contentValues.put(DbConstants.BOOK_TITTLE, book.tittle)
+        contentValues.put(DbConstants.BOOK_TYPE, book.type)
+        contentValues.put(DbConstants.BOOK_AUTHOR, book.author)
+        contentValues.put(DbConstants.BOOK_N_OF_PAGES, book.numberOfPages)
+        contentValues.put(DbConstants.BOOK_LAST_PAGE_READ, book.lastPageRead)
+        contentValues.put(DbConstants.BOOK_IS_READ, book.isRead)
+        var resp_id = db.insert(DbConstants.TABLE_BOOKS, null, contentValues)
         val msg = if (resp_id != -1L) {
             "Inserido com sucesso"
         } else {
@@ -35,37 +33,36 @@ class BookDAO(context: Context) {
 
     fun update(book: Book):
             Boolean {
-        val db = banco.writableDatabase
-        val isBookRead = if(book.ultimaPaginaLida==book.numeroDePaginas) 1 else 0
+        val db = db.writableDatabase
+        val isBookRead = if (book.lastPageRead == book.numberOfPages) 1 else 0
         val contentValues = ContentValues()
-        contentValues.put(DbConstants.LIVRO_ID, book.id)
-        contentValues.put(DbConstants.LIVRO_TITULO, book.titulo)
-        contentValues.put(DbConstants.LIVRO_TIPO, book.tipo)
-        contentValues.put(DbConstants.LIVRO_AUTOR, book.autor)
-        contentValues.put(DbConstants.LIVRO_N_PAGINAS, book.numeroDePaginas)
-        contentValues.put(DbConstants.ULTIMA_PAGINA_LIDA, book.ultimaPaginaLida)
-        contentValues.put(DbConstants.LIVRO_LIDO, isBookRead)
+        contentValues.put(DbConstants.BOOK_ID, book.id)
+        contentValues.put(DbConstants.BOOK_TITTLE, book.tittle)
+        contentValues.put(DbConstants.BOOK_TYPE, book.type)
+        contentValues.put(DbConstants.BOOK_AUTHOR, book.author)
+        contentValues.put(DbConstants.BOOK_N_OF_PAGES, book.numberOfPages)
+        contentValues.put(DbConstants.BOOK_LAST_PAGE_READ, book.lastPageRead)
+        contentValues.put(DbConstants.BOOK_IS_READ, isBookRead)
         //db.update()
         db.insertWithOnConflict(
-            DbConstants.TABLE_LIVROS,
+            DbConstants.TABLE_BOOKS,
             null,
             contentValues,
             SQLiteDatabase.CONFLICT_REPLACE
         )
         db.close()
-
         return true
     }
 
     fun remove(id: Int): Int {
-        val db = banco.writableDatabase
-        return db.delete(DbConstants.TABLE_LIVROS, "ID =?", arrayOf(id.toString()))
+        val db = db.writableDatabase
+        return db.delete(DbConstants.TABLE_BOOKS, "ID =?", arrayOf(id.toString()))
     }
 
     fun getAll(): ArrayList<Book> {
         Log.v("LOG", "GetAll")
-        val db = banco.writableDatabase
-        val sql = "SELECT *  from " + DbConstants.TABLE_LIVROS
+        val db = db.writableDatabase
+        val sql = "SELECT *  from " + DbConstants.TABLE_BOOKS
         val cursor = db.rawQuery(sql, null)
         val books = ArrayList<Book>()
 
@@ -82,12 +79,12 @@ class BookDAO(context: Context) {
 
     fun getByName(titulo: String): ArrayList<Book> {
         Log.v("LOG", "Get By Titulo")
-        val db = banco.writableDatabase
+        val db = db.writableDatabase
         val sql =
             "SELECT *" +
-            "  from " + DbConstants.TABLE_LIVROS + "" +
-            " where ${DbConstants.LIVRO_TITULO}" +
-            " like '%$titulo%'"
+                    "  from " + DbConstants.TABLE_BOOKS + "" +
+                    " where ${DbConstants.BOOK_TITTLE}" +
+                    " like '%$titulo%'"
         val cursor = db.rawQuery(sql, null)
         val books = ArrayList<Book>()
         while (cursor.moveToNext()) {
@@ -101,15 +98,15 @@ class BookDAO(context: Context) {
     }
 
     private fun clienteFromCursor(cursor: Cursor): Book {
-        val id = cursor.getInt(cursor.getColumnIndexOrThrow(DbConstants.LIVRO_ID))
-        val titulo = cursor.getString(cursor.getColumnIndexOrThrow(DbConstants.LIVRO_TITULO))
-        val tipo = cursor.getString(cursor.getColumnIndexOrThrow(DbConstants.LIVRO_TIPO))
-        val autor = cursor.getString(cursor.getColumnIndexOrThrow(DbConstants.LIVRO_AUTOR))
+        val id = cursor.getInt(cursor.getColumnIndexOrThrow(DbConstants.BOOK_ID))
+        val titulo = cursor.getString(cursor.getColumnIndexOrThrow(DbConstants.BOOK_TITTLE))
+        val tipo = cursor.getString(cursor.getColumnIndexOrThrow(DbConstants.BOOK_TYPE))
+        val autor = cursor.getString(cursor.getColumnIndexOrThrow(DbConstants.BOOK_AUTHOR))
         val numeroDePaginas =
-            cursor.getInt(cursor.getColumnIndexOrThrow(DbConstants.LIVRO_N_PAGINAS))
+            cursor.getInt(cursor.getColumnIndexOrThrow(DbConstants.BOOK_N_OF_PAGES))
         val ultimaPaginaLida =
-            cursor.getInt(cursor.getColumnIndexOrThrow(DbConstants.ULTIMA_PAGINA_LIDA))
-        val lido = cursor.getInt(cursor.getColumnIndexOrThrow(DbConstants.LIVRO_LIDO))
+            cursor.getInt(cursor.getColumnIndexOrThrow(DbConstants.BOOK_LAST_PAGE_READ))
+        val lido = cursor.getInt(cursor.getColumnIndexOrThrow(DbConstants.BOOK_IS_READ))
 
         return Book(id, titulo, tipo, autor, numeroDePaginas, ultimaPaginaLida, lido)
     }

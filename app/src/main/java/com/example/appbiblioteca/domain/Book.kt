@@ -7,13 +7,13 @@ import androidx.annotation.RequiresApi
 
 data class Book(
     val id: Int?,
-    val titulo: String?,
-    val tipo: String?,
-    val autor: String?,
-    val numeroDePaginas: Int,
-    val ultimaPaginaLida: Int?,
-    val lido: Int
-    ):Parcelable {
+    val tittle: String?,
+    val type: String?,
+    val author: String?,
+    val numberOfPages: Int,
+    val lastPageRead: Int?,
+    val isRead: Int
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString(),
@@ -34,14 +34,14 @@ data class Book(
         if (id != null) {
             parcel?.writeInt(id)
         }
-        parcel?.writeString(titulo)
-        parcel?.writeString(tipo)
-        parcel?.writeString(autor)
-        parcel?.writeInt(numeroDePaginas)
-        if (ultimaPaginaLida != null) {
-            parcel?.writeInt(ultimaPaginaLida)
+        parcel?.writeString(tittle)
+        parcel?.writeString(type)
+        parcel?.writeString(author)
+        parcel?.writeInt(numberOfPages)
+        if (lastPageRead != null) {
+            parcel?.writeInt(lastPageRead)
         }
-        parcel?.writeInt(lido)
+        parcel?.writeInt(isRead)
     }
 
     companion object CREATOR : Parcelable.Creator<Book> {

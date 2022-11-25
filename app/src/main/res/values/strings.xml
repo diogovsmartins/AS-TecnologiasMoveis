@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">AppBiblioteca</string>
+    <string name="hint_author">Autor</string>
+    <string name="hint_tittle">Titulo</string>
+    <string name="hint_book_type">Tipo do livro</string>
+    <string name="hint_number_of_pages">Numero de Paginas</string>
+    <string name="save_button_text">Save</string>
+    <string name="text_insert_book">Cadastrar livro</string>
+    <string name="hint_is_read">Lido</string>
+    <string name="hint_last_page_read">Ultima Pagina lida</string>
+    <string name="hint_book_id">id</string>
+    <string name="text_update_book">Atualizar livro</string>
+    <string name="text_delete">Delete</string>
+    <string name="text_update">Update</string>
+    <string name="text_list_books">Listagem De Livros</string>
+    <string name="text_books_read">Lidos</string>
+    <string name="text_menu">Menu</string>
+    <string name="text_update_books">Atualizar Livros</string>
+    <string name="text_show_books">Mostrar Livros</string>
+    <string name="text_next">Proximo</string>
+    <string name="text_create_books">Criar Livros</string>
+    <string name="text_tittle">Titulo</string>
+    <string name="text_book_type">tipo</string>
+    <string name="text_book_author">autor</string>
+    <string name="text_number_of_pages">n.paginas</string>
+    <string name="text_last_page_read">ultima pagina</string>
+    <string name="text_is_read">lido</string>
 </resources>
